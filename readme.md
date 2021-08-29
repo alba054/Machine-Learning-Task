@@ -32,8 +32,8 @@ Pada bagian ini saya menggunakan dataset film yang bersumber dari [kaggle.com](k
     # membaca file dengan format csv
     df = pd.read_csv('/content/gdrive/MyDrive/dataset/tmdb_5000_movies.csv')
     df.head()
-
-![enter image description here](https://drive.google.com/file/d/16X1tqjDKYqYTRJHMnkSUAiZ9yMywfP23/view?usp=sharing)
+  
+![dataset film](dataset.jpg)
 
     data = list(df['genres'].apply(split_genres))
     data[:5] # genre has been parsed and ready to be encode
@@ -46,21 +46,24 @@ kode diatas digunakan untuk mengekstrak genre dari format :
     df = pd.DataFrame(te_data,columns=te.columns_)
     df.head()
 
-kode diatas akan mentransformasi dataset dengan membuat tabel pivot dengan nama - nama genre sebagai kolomnya tabel tersebut seperti dibawah,
-![enter image description here](https://drive.google.com/file/d/16X1tqjDKYqYTRJHMnkSUAiZ9yMywfP23/view?usp=sharing)
+kode diatas akan mentransformasi dataset dengan membuat tabel pivot dengan nama - nama genre sebagai kolomnya tabel tersebut seperti dibawah,  
+
+![dataset sudah ditransformasi](transformed.jpg)
 
     df1 = apriori(df, min_support=0.03, use_colnames=True) # find frequent value of genres using apriori algorithm
     df1
 
-setelah data ditransformasi maka barulah kita menggunakan library *mlxtend.frequent_patterns.apriori* untuk mencari nilai - nilai support untuk setiap kombinasi genre yang muncul pada 1 film. Data ditransformasi agar dapat menyesuaikan format yang dibutuhkan oleh library tersebut. Pada kode diatas digunakan minimum support sebesar 0.03 (3%)
-![enter image description here](https://drive.google.com/file/d/16X1tqjDKYqYTRJHMnkSUAiZ9yMywfP23/view?usp=sharing)
+setelah data ditransformasi maka barulah kita menggunakan library *mlxtend.frequent_patterns.apriori* untuk mencari nilai - nilai support untuk setiap kombinasi genre yang muncul pada 1 film. Data ditransformasi agar dapat menyesuaikan format yang dibutuhkan oleh library tersebut. Pada kode diatas digunakan minimum support sebesar 0.03 (3%)  
+
+![tabel support](support.jpg)
 
 rules = association_rules(df1, metric="lift", min_threshold=1) # create association rules
 
     rules = association_rules(df1, metric="lift", min_threshold=1) # create association rules
     rules.loc[rules['lift'] == rules['lift'].max()] # select rules with the highest lift
  
-setelah itu kita membuat association rules yang mungkin dari nilai - nilai support yang didapatkan sebelumnya. Pada kode di atas kita menggunakan metric(ukuran) lift untuk digunakan sebagai batasan aturan yang dihasilkan sebesar 1(lift 1 berarti genre tidak saling berasosiasi).
-![enter image description here](https://drive.google.com/file/d/16X1tqjDKYqYTRJHMnkSUAiZ9yMywfP23/view?usp=sharing)
+setelah itu kita membuat association rules yang mungkin dari nilai - nilai support yang didapatkan sebelumnya. Pada kode di atas kita menggunakan metric(ukuran) lift untuk digunakan sebagai batasan aturan yang dihasilkan sebesar 1(lift 1 berarti genre tidak saling berasosiasi).  
+
+![table association rules](rules.jpg)
 
 
